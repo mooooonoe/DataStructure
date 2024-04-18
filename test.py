@@ -1,56 +1,48 @@
-# Queue 구현
+# ListStack
+class ListStack:
+	def __init__(self):
+		self.__stack = []
 
-class Queue:
-    def __init__(self):
-        self.items = []
+	def push(self, x):
+		self.__stack.append(x)
+
+	def pop(self):
+		return self.__stack.pop()
+
+	def top(self):
+		if self.isEmpty():
+			return None
+		else:
+			return self.__stack[-1]
+
+	def isEmpty(self) -> bool:
+		return not bool(self.__stack)
+
+	def popAll(self):
+		self.__stack.clear() 
+
+	def printStack(self):
+		print("Stack from top:", end = ' ')
+		for i in range(len(self.__stack)-1, -1, -1):
+			print(self.__stack[i], end = ' ')
+		print()
+		
     
-    def isEmpty(self):
-        if len(self.items) == 0:
-            return True
+def checkStr(s):
+    stack = ListStack()
+    found_dollar = False
+
+    for i in range(len(s)):
+        if s[i] == '$':
+            found_dollar = True
+            continue 
+
+        if not found_dollar:
+            stack.push(s[i])
         else:
-            return False
-    def enqueue(self, item):
-        self.items.append(item)
+            if stack.isEmpty():
+                return False
+            if s[i] != stack.pop():
+                return False
     
-    def dequeue(self):
-        if not self.isEmpty() :
-            return self.items.pop(0)
-        else:
-            return None
-        
-    def size(self):
-        return len(self.items)
-    
-
-
-queue = Queue()
-# queue.enqueue(1)
-# queue.enqueue(2)
-# queue.enqueue(3)
-
-# print(queue.size())
-
-for i in range(1,4):
-    queue.enqueue(i)
-
-print(queue.size())
-print(queue.dequeue())
-
-if queue.isEmpty():
-    print('queue is empty !') 
-else:
-    print('queue is full !')
-
-
-stack = []
-stack.append(15)
-stack.append(25)
-stack.append(10)
-stack.append(2)
-
-print(stack)
-
-i = stack.pop()
-print(i)
-print(stack)
-
+    return stack.isEmpty()
